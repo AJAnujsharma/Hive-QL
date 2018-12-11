@@ -1,0 +1,98 @@
+HIVE CREATING QUERIES FOR TABLE 
+
+1. 
+CREATE TABLE USA_HOUSING_STATS_TXT (Avg_Area_Income DOUBLE, Avg_Area_House_Age DOUBLE,Avg_Area_Number_of_Rooms DOUBLE, Avg_Area_Number_of_Bedrooms DOUBLE,Area_Population DOUBLE, Price DOUBLE )
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE;
+
+CREATE TABLE USA_HOUSING_STATS_SEQ (Avg_Area_Income DOUBLE, Avg_Area_House_Age DOUBLE,Avg_Area_Number_of_Rooms DOUBLE, Avg_Area_Number_of_Bedrooms DOUBLE,Area_Population DOUBLE, Price DOUBLE )
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+STORED AS sequencefile;
+
+CREATE TABLE USA_HOUSING_STATS_RC (Avg_Area_Income DOUBLE, Avg_Area_House_Age DOUBLE,Avg_Area_Number_of_Rooms DOUBLE, Avg_Area_Number_of_Bedrooms DOUBLE,Area_Population DOUBLE, Price DOUBLE )
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+stored as rcfile;
+
+CREATE TABLE USA_HOUSING_STATS_AVRO (Avg_Area_Income DOUBLE, Avg_Area_House_Age DOUBLE,Avg_Area_Number_of_Rooms DOUBLE, Avg_Area_Number_of_Bedrooms DOUBLE,Area_Population DOUBLE, Price DOUBLE )
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+stored as avro;
+
+CREATE TABLE USA_HOUSING_STATS_ORC (Avg_Area_Income DOUBLE, Avg_Area_House_Age DOUBLE,Avg_Area_Number_of_Rooms DOUBLE, Avg_Area_Number_of_Bedrooms DOUBLE,Area_Population DOUBLE, Price DOUBLE )
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+stored as orc;
+
+CREATE TABLE USA_HOUSING_STATS_PARQUET (Avg_Area_Income DOUBLE, Avg_Area_House_Age DOUBLE,Avg_Area_Number_of_Rooms DOUBLE, Avg_Area_Number_of_Bedrooms DOUBLE,Area_Population DOUBLE, Price DOUBLE )
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY ','
+LINES TERMINATED BY '\n'
+stored as parquet;
+
+CREATE TABLE DUMMY(NAME DOUBLE);
+
+LOAD DATA LOCAL INPATH'/home/training/Desktop/Anuj/USA_Housing.csv'
+OVERWRITE INTO TABLE USA_HOUSING_STATS_TXT;
+OK
+
+LOAD DATA LOCAL INPATH'/home/training/Desktop/Anuj/USA_Housing.csv'
+OVERWRITE INTO TABLE USA_HOUSING_STATS_SEQ;
+NOT OK		--> OK WHEN WE INSERTED DATA INTO THIS TABLE USING TXT TABLE
+
+LOAD DATA LOCAL INPATH'/home/training/Desktop/Anuj/USA_Housing.csv'
+OVERWRITE INTO TABLE USA_HOUSING_STATS_AVRO;
+OK 
+
+LOAD DATA LOCAL INPATH'/home/training/Desktop/Anuj/USA_Housing.csv'
+OVERWRITE INTO TABLE USA_HOUSING_STATS_RC;
+NOT OK
+
+LOAD DATA LOCAL INPATH'/home/training/Desktop/Anuj/USA_Housing.csv'
+OVERWRITE INTO TABLE USA_HOUSING_STATS_ORC;
+OK
+
+LOAD DATA LOCAL INPATH'/home/training/Desktop/Anuj/USA_Housing.csv'
+OVERWRITE INTO TABLE USA_HOUSING_STATS_PARQUET;
+OK
+
+-------------------------------------------------------------------
+CREATE TABLE ARRAY_TEST_TABLE(NAME STRING,FRIENDS ARRAY<STRING>)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE;
+
+LOAD DATA LOCAL INPATH'/home/training/Desktop/Anuj/Array_test_data.txt'
+OVERWRITE INTO TABLE ARRAY_TEST_TABLE;
+
+--------------------------------------------------------------------
+CREATE TABLE MAP_TEST_TABLE(Name String,Phone_number MAP<STRING,BIGINT>)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE;
+
+LOAD DATA LOCAL INPATH'/home/training/Desktop/Anuj/Struct_test_data.txt'
+OVERWRITE INTO TABLE MAP_TEST_TABLE;
+--------------------------------------------------------------------
+CREATE TABLE STRUCT_TEST_TABLE(Name String,DETAILS STRUCT<COMPANY:STRING, PINCODE:BIGINT, SALARY:DECIMAL>)
+ROW FORMAT DELIMITED
+FIELDS TERMINATED BY '\t'
+LINES TERMINATED BY '\n'
+STORED AS TEXTFILE;
+
+LOAD DATA LOCAL INPATH'/home/training/Desktop/Anuj/Struct_test_data.txt'
+OVERWRITE INTO TABLE STRUCT_TEST_TABLE;
+--------------------------------------------------------------------
+
+ALTER PARTITION 
+
+ALTER TABLE spsrn_student_full_report ADD PARTITION (pin_code="462016") LOCATION  "/user/hive/warehouse/spsrn_student_full_report";
